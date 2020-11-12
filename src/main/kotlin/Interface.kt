@@ -10,24 +10,43 @@
 зависеть от интерфейса C, который имплементирует класс B, что уже хорошо)
  */
 
-interface PowerController{
-    fun powerOn()
-    fun powerOff()
+/*
+Все функции  интерфейсов имеющие свою реализацию по умолчанию открытые (interface PowerController),
+а если они не имеют свою реализацию то абстрактные (interface VolumeController).
+Функции интерфейсов имеющие собственную реализацию могут вызываться у объекта имплементирующего класса через
+точку и не обязаны(fun powerOff()), но могут быть переопределены в имплементирующем классе (fun powerOn)
+(внутри переопределенной функции имеющей свою реализацию в интерфейсе, свою реализацию можно вызвать через
+ключевое слово super)
+Интерфейс не может хранить состояния, тобишь литералы - но можно прописать литерал через getter переменной.
+ */
+
+interface PowerController {
+    val off: String
+        get() = "TV switched off"
+    val on: String
+        get() = "Телевизор включен"
+    fun powerOn(){
+        println("$on")
+    }
+    fun powerOff() {
+        println("$off")
+    }
 }
 
-interface VolumeController{
+interface VolumeController {
     fun volumeUp()
     fun volumeDown()
 }
 
-class TV:PowerController,VolumeController{
+class TV : PowerController, VolumeController {
     override fun powerOn() {
+        super.powerOn()
         println("TV switched on")
     }
 
-    override fun powerOff() {
-        println("TV switched off")
-    }
+    //  override fun powerOff() {
+    //      println("TV switched off")
+    //  }
 
     override fun volumeUp() {
         println("Volume increased")
